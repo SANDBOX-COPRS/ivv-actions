@@ -1,8 +1,8 @@
 ***Settings***
-Documentation          This test checks whether the desired cluster configuration
-...                    is the configuration that was deployed. To check the nodes
-...                    available on the cluster, robot framework connects to the
-...                    gateway using its SSH key. This test aims to check the
+Documentation          Deployed Infrastructure : this test checks whether the desired 
+...                    cluster configuration is the configuration that was deployed.
+...                    To check the nodes available on the cluster, robot framework connects
+...                    to the gateway using its SSH key. This test aims to check the
 ...                    conditions of US #97.
 Library                SSHLibrary
 Library                BuiltIn

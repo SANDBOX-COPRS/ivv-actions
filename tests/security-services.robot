@@ -62,7 +62,7 @@ Check auditd is running on all masters
     END
 
 Check Wazuh Agent is installed on all nodes
-    [Documentation]       This test aims to check whether all masters have
+    [Documentation]       This test aims to check whether all nodes have
     ...                 the running process wazuh agent
 
     FOR    ${nodes_index}    IN RANGE    0     ${nodes_length}
