@@ -12,9 +12,6 @@ Resource               ${RESOURCES}/masters.resource
 *** Variables ***
 ${RESOURCES}            resources
 ${USERNAME}             safescale
-${PROXY}                ${GATEWAYS}[0]
-${PROXY_KEYPATH}        ${GATEWAYS_KEYS}[0]
-@{HOSTS}                ${MASTERS} + ${NODES}
 
 *** Test Cases ***
 # Add check Ansible playbook is present
