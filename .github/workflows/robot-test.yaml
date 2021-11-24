@@ -26,7 +26,7 @@ jobs:
 
         # the package installation will only be executed when the
         # requirements-files have changed.
-      - run: pip install -r requirements.txt
+      - run: pip install -r tests/requirements.txt
         if: steps.cache-virtualenv.outputs.cache-hit != 'true'
     
   robot-framework-csc-tests:
