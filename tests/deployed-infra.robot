@@ -7,14 +7,17 @@ Documentation          Deployed Infrastructure : this test checks whether the de
 Library                SSHLibrary
 Library                BuiltIn
 Library                Collections
+Library                OperatingSystem
 Resource               ${RESOURCES}/gateways.resource
 Resource               ${RESOURCES}/nodes.resource 
 Resource               ${RESOURCES}/masters.resource 
 Suite Setup            Open Connection And Log In
 Suite Teardown         Close All Connections
+Test Teardown          Sleep    0.2    # Sleep to avoid all connections arrive at the same time as a limited number of sessions
+                                       # is allowed on each host
 
 *** Variables ***
-${RESOURCES}            resources
+${RESOURCES}            %{RF_RESOURCES}
 ${USERNAME}             safescale
 ${EXPECTED_NODES}       3
 ${EXPECTED_INGESTERS}   1
@@ -27,36 +30,32 @@ Check there are the right number of nodes
     ...                   in the cluster and compares it to the expected number
     ${output}=    Execute Command    sed -n '/BEGIN$/,\${p;/END$/q}' /etc/hosts | grep node | wc -l
     Should Be Equal As Integers    ${output}     ${${EXPECTED_NODES}+${EXPECTED_INGESTERS}}
-    Sleep    0.2  # Sleep to avoid all connections arrive at the same time as a limited number of sessions
-                  # is allowed on each host
 
 Check there are the right number of masters
     [Documentation]       This test checks the number of masters deployed
     ...                   in the cluster and compares it to the expected number
     ${output}=    Execute Command    sed -n '/BEGIN$/,\${p;/END$/q}' /etc/hosts | grep master | wc -l
     Should Be Equal As Integers    ${output}     ${EXPECTED_MASTERS}
-    Sleep    0.2 
 
 Check there are the right number of gateways
     [Documentation]       This test checks the number of gateways deployed
     ...                   in the cluster and compares it to the expected number
     ${output}=    Execute Command    sed -n '/BEGIN$/,\${p;/END$/q}' /etc/hosts | grep gw | wc -l
     Should Be Equal As Integers    ${output}     ${EXPECTED_GATEWAYS}
-    Sleep    0.2 
 
-Check there are the right numbers of volumes through rook-ceph
-    [Documentation]       This test connects to the rook-ceph tools pod to list
-    ...                   the current rook-ceph volumes. They should match the
-    ...                   number of expected nodes.
-    ${output}=    Execute Command    kubectl -n infra exec -it $(kubectl -n infra get pod -l "app=rook-ceph-tools" -o jsonpath='{.items[0].metadata.name}') -- ceph osd status | grep 'cluster-ivv-node' | wc -l
-    Should Be Equal As Integers    ${output}    ${EXPECTED_NODES}
-    Sleep    0.2 
+Check volumes deployed through safescale
+     [Documentation]      This test uses safescale to list current volumes and check
+     ...                  the expected volumes are present
+     ${output}=           Run    safescale volume list | jq '.result[].attachments[].host.name'
+     FOR    ${node_name}    IN     @{NODES_NAMES}
+         Should Contain    ${output}    ${node_name}
+    END
 
 Check all hosts are in the network
     [Documentation]       This test checks whether all adresses are in the
     ...                   network
     ${output}=    Execute Command    ip neigh | grep '192.168.*' | cut -d ' ' -f 1
-    ${HOSTS}=    Combine Lists    ${NODES}    ${MASTERS}    # TODO: Add second gateway when used
+    ${HOSTS}=    Combine Lists    ${INGESTERS}    ${NODES}    ${MASTERS}    # TODO: Add second gateway when used
 
     FOR    ${host}    IN   @{HOSTS}
         Should Contain    ${output}    ${host}

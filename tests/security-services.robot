@@ -3,6 +3,7 @@ Documentation          Security Services : This test aims at checking every
 ...                    services mentionned in story #87 are installed and running
 Library                SSHLibrary    
 Library                BuiltIn
+Library                Collections
 Suite Setup            Open Connection And Log In
 Suite Teardown         Close All Connections
 Resource               ${RESOURCES}/gateways.resource 
@@ -10,7 +11,7 @@ Resource               ${RESOURCES}/nodes.resource
 Resource               ${RESOURCES}/masters.resource
 
 *** Variables ***
-${RESOURCES}            resources
+${RESOURCES}            %{RF_RESOURCES}
 ${USERNAME}             safescale
 
 *** Test Cases ***
@@ -19,7 +20,11 @@ Get Length of all hosts lists
     [Documentation]       This first step evaluate the total number of hosts
     ...                 and their kind
 
+    ${NODES}=        Combine Lists    ${NODES}    ${INGESTERS}
+    ${NODES_KEYS}=    Combine Lists    ${NODES_KEYS}    ${INGESTERS_KEYS}
     ${nodes_length}=    Get Length   ${NODES}
+    Set Suite Variable    ${NODES}
+    Set Suite Variable    ${NODES_KEYS}
     Set Suite Variable    ${nodes_length}
 
     ${masters_length}=    Get Length    ${MASTERS}

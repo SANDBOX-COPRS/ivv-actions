@@ -8,7 +8,7 @@ Suite Teardown         Close All Connections
 Resource               ${RESOURCES}/gateways.resource 
 
 *** Variables ***
-${RESOURCES}            resources
+${RESOURCES}            %{RF_RESOURCES}
 ${USERNAME}             safescale
 
 *** Test Cases ***

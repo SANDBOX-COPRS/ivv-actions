@@ -10,7 +10,7 @@ Test Teardown          Sleep    0.2
 Resource               ${RESOURCES}/gateways.resource 
 
 *** Variables ***
-${RESOURCES}            resources
+${RESOURCES}            %{RF_RESOURCES}
 ${USERNAME}             safescale
 
 *** Test Cases ***
