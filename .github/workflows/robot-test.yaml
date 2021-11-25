@@ -10,6 +10,9 @@ jobs:
   robot-framework-csc-tests:
     runs-on: "self-hosted"
     steps:
+      - name: "Start the cluster"
+        run: safescale cluster start cluster-ivv
+      
       - name: "Checkout source code"
         uses: "actions/checkout@v2.3.4"
         with:
@@ -30,4 +33,7 @@ jobs:
         if: steps.cache-virtualenv.outputs.cache-hit != 'true'
       
       - name: "Runs the robot-framework tests"
-        run: robot -o output/output -l output/log -r output/report tests/*.robot
+        run: robot -o output/output -l output/log -r output/report tests/robot/*.robot
+
+      - name: "Stop the cluster"
+        run: safescale cluster stop cluster-ivv
