@@ -53,5 +53,5 @@ Check if mongodb version is v5
 
 *** Keywords ***
 Open Connection And Log In
-    Open Connection     ${PROXY}
+    Open Connection     ${PROXY}    timeout=600
     Login With Public Key    ${USERNAME}    ${PROXY_KEYPATH}
