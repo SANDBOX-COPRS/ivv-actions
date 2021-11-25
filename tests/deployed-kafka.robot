@@ -1,5 +1,5 @@
 ***Settings***
-Documentation          Deployed Kafka : This test checks whther kafka is deployed
+Documentation          Deployed Kafka : This test checks whether kafka is deployed
 ...                    on the cluster. This test validates half of US #90
 Library                SSHLibrary    
 Library                BuiltIn
