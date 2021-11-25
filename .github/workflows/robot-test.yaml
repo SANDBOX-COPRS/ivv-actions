@@ -7,7 +7,7 @@ on:
       - test_develop
 
 jobs:
-  create-env:
+  robot-framework-csc-tests:
     runs-on: "self-hosted"
     steps:
       - name: "Checkout source code"
@@ -28,14 +28,6 @@ jobs:
         # requirements-files have changed.
       - run: pip install -r tests/requirements.txt
         if: steps.cache-virtualenv.outputs.cache-hit != 'true'
-    
-  robot-framework-csc-tests:
-    needs: create-env
-    runs-on: "self-hosted"
-    steps:
-      - name: "Use the previoulsy created virtualenv"
-        uses: syphar/restore-virtualenv@v1
-        id: cache-virtualenv
       
       - name: "Runs the robot-framework tests"
         run: robot -o output/output -l output/log -r output/report tests/*.robot
