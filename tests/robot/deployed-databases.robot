@@ -7,13 +7,18 @@ Library                BuiltIn
 Suite Setup            Open Connection And Log In
 Suite Teardown         Close All Connections
 Test Teardown          Sleep    0.2
-Resource               ${RESOURCES}/gateways.resource 
+Resource               ${RESOURCES}/gateways.resource
+Resource               ${RESOURCES}/nodes.resource
+Resource               ${RESOURCES}/masters.resource
 
 *** Variables ***
 ${RESOURCES}            %{RF_RESOURCES}
 ${USERNAME}             safescale
 
 *** Test Cases ***
+Wait for the Kubernetes cluster to start
+    Wait Until Keyword Succeeds    5 min 	20 sec    Kubernetes Cluster Is Up
+
 Check if elasticsearch is deployed on the platform
     [Documentation]         This test checks whether elasticsearch is deployed
     ...                     on the cluster.
@@ -55,3 +60,8 @@ Check if mongodb version is v5
 Open Connection And Log In
     Open Connection     ${PROXY}    timeout=600
     Login With Public Key    ${USERNAME}    ${PROXY_KEYPATH}
+
+Kubernetes Cluster Is Up
+    ${output}=    Execute Command    kubectl get pods -A
+    Log    ${output}    html=True
+    Should Not Contain Any    ${output}    Init    Error
