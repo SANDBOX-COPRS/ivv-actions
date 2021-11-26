@@ -1,4 +1,4 @@
 *.log
 *.html
-resources/
+infra.resource
 output/

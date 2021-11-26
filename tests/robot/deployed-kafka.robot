@@ -3,9 +3,10 @@ Documentation          Deployed Kafka : This test checks whether kafka is deploy
 ...                    on the cluster. This test validates half of US #90
 Library                SSHLibrary    
 Library                BuiltIn
-Suite Setup            Open Connection And Log In
-Suite Teardown         Close All Connections
-Resource               ${RESOURCES}/gateways.resource 
+Suite Setup            Setup
+Resource               ${RESOURCES}/infra.resource
+Resource               ${RESOURCES}/connection.resource
+Resource               ${RESOURCES}/kubernetes.resource
 
 *** Variables ***
 ${RESOURCES}            %{RF_RESOURCES}
@@ -19,6 +20,5 @@ Check if kafka is deployed on the platform
     Should Contain    ${output}    deployed
 
 *** Keywords ***
-Open Connection And Log In
-    Open Connection     ${PROXY}
-    Login With Public Key    ${USERNAME}    ${PROXY_KEYPATH}
+Setup
+    Run Keywords    Open Connection And Log In    Wait For K8S To Start

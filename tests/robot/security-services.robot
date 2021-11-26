@@ -6,9 +6,8 @@ Library                BuiltIn
 Library                Collections
 Suite Setup            Open Connection And Log In
 Suite Teardown         Close All Connections
-Resource               ${RESOURCES}/gateways.resource 
-Resource               ${RESOURCES}/nodes.resource
-Resource               ${RESOURCES}/masters.resource
+Resource               ${RESOURCES}/infra.resource
+Resource               ${RESOURCES}/connection.resource
 
 *** Variables ***
 ${RESOURCES}            %{RF_RESOURCES}
@@ -131,15 +130,3 @@ Check OpenVPN is running on all gateways
         Should Contain    ${output}    active
         Close Connection
     END
-
-
-*** Keywords ***
-Open Connection And Log In
-    ${index}=    Open Connection     ${PROXY}
-    Set Suite Variable    ${index}
-    Login With Public Key    ${USERNAME}    ${PROXY_KEYPATH}
-
-Login To Host
-    [Arguments]    ${host}    ${hostkey}
-    Open connection   ${host}
-    Login With Public Key    ${USERNAME}    ${hostkey}    jumphost_index_or_alias=${index}

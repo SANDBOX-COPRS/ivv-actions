@@ -3,9 +3,11 @@ Documentation          Deployed SCDF : This test checks whether Spring Cloud Dat
 ...                    is deployed on the cluster. This test validates US #89
 Library                SSHLibrary    
 Library                BuiltIn
-Suite Setup            Open Connection And Log In
+Suite Setup            Setup
 Suite Teardown         Close All Connections
-Resource               ${RESOURCES}/gateways.resource 
+Resource               ${RESOURCES}/infra.resource
+Resource               ${RESOURCES}/connection.resource
+Resource               ${RESOURCES}/kubernetes.resource
 
 *** Variables ***
 ${RESOURCES}            %{RF_RESOURCES}
@@ -19,6 +21,5 @@ Check if kafka is deployed on the platform
     Should Contain    ${output}    deployed
 
 *** Keywords ***
-Open Connection And Log In
-    Open Connection     ${PROXY}
-    Login With Public Key    ${USERNAME}    ${PROXY_KEYPATH}
+Setup
+    Run Keywords    Open Connection And Log In    Wait For K8S To Start

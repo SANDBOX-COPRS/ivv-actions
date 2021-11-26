@@ -8,10 +8,10 @@ Library                SSHLibrary
 Library                BuiltIn
 Library                Collections
 Library                OperatingSystem
-Resource               ${RESOURCES}/gateways.resource
-Resource               ${RESOURCES}/nodes.resource 
-Resource               ${RESOURCES}/masters.resource 
-Suite Setup            Open Connection And Log In
+Resource               ${RESOURCES}/infra.resource
+Resource               ${RESOURCES}/connection.resource
+Resource               ${RESOURCES}/kubernetes.resource
+Suite Setup            Setup
 Suite Teardown         Close All Connections
 Test Teardown          Sleep    0.2    # Sleep to avoid all connections arrive at the same time as a limited number of sessions
                                        # is allowed on each host
@@ -62,6 +62,5 @@ Check all hosts are in the network
     END
 
 *** Keywords ***
-Open Connection And Log In
-    Open Connection     ${PROXY}
-    Login With Public Key    ${USERNAME}    ${PROXY_KEYPATH}
+Setup
+    Run Keywords    Open Connection And Log In    Wait For K8S To Start
