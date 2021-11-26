@@ -7,5 +7,5 @@ Kubernetes Cluster Is Up
 
 Wait For K8S To Start
     [Documentation]                Waits for the k8s cluster to be fully up
-    Wait Until Keyword Succeeds    5 min 	20 sec    Kubernetes Cluster Is Up
+    Wait Until Keyword Succeeds    10 min 	20 sec    Kubernetes Cluster Is Up
     Sleep    0.2  # Prevents competitive access to the ssh connection 
