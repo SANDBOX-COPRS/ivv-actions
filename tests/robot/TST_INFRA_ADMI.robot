@@ -11,7 +11,8 @@ Resource               ${RESOURCES}/ssh_co.resource
 Resource               ${RESOURCES}/website_login.resource
 Suite Setup            Run Keywords    Retrieve all passwords
 ...                    Get Platform Ip
-Suite Teardown         Close All Browsers
+Suite Teardown         Run Keywords    Close All Browsers
+...                    Close All Connections
 
 **Variables**
 ${GRAFANA}             https://monitoring.platform1.ivv-csc.com/
