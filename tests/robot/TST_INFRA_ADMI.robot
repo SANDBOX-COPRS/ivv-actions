@@ -16,20 +16,20 @@ Suite Teardown         Run Keywords    Close All Browsers
 
 **Variables**
 ${GRAFANA}             https://monitoring.platform1.ivv-csc.com/
-${RESOURCES}           %{RF_RESOURCES}
+${RESOURCES}           ${CURDIR}${/}..${/}resources
 
 **Test Cases**
 Unregistered ssh connection to platform 
     [Documentation]               Checks it is impossible for an unregistered user
     ...                           to connect via ssh to the rs-platform
-    Run Keyword And Expect Error    STARTS:     Authentication failed
+    Run Keyword And Expect Error    STARTS: Authentication failed
     ...                             SSH Connection To Platform    rb_fake    ${FAKE_PASSWORD}    ${GATEWAY}
 
 Unregistered application connection
     [Documentation]               Checks it is impossible for an unregistered user
     ...                           to connect to an rs-platform application
     Login Through Keycloak           rb_fake  ${FAKE_PASSWORD}  ${GRAFANA}
-    Run Keyword And Expect Error     STARTS:    Location did not become
+    Run Keyword And Expect Error     STARTS: Location did not become
     ...                              Wait Until Location Is    https://monitoring.platform1.ivv-csc.com/\?orgId=1    timeout=15
 
 Operator connection to grafana
