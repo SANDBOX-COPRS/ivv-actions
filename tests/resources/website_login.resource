@@ -6,5 +6,7 @@ Login Through Keycloak
     Create Webdriver    Firefox    options=${firefox_options}
     Go To    ${URL}
     Input Text  username       ${LOGIN}
+    Set Log Level    NONE
     Input Text  password       ${PASSWORD}
+    Set Log Level    INFO
     Click button  kc-login

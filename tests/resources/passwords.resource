@@ -1,5 +1,6 @@
 **Keywords**
 Retrieve all passwords
+    Set Log Level    NONE
     ${OPERATOR_PASSWORD}=    Get user password    rb_operator    
     ${SECURITY_PASSWORD}=    Get user password    rb_security
     ${SUDO_PASSWORD}=        Get user password    rb_sudo
@@ -8,3 +9,4 @@ Retrieve all passwords
     Set Suite Variable    $SECURITY_PASSWORD
     Set Suite Variable    $SUDO_PASSWORD
     Set Suite Variable    $FAKE_PASSWORD
+    Set Log Level    INFO
