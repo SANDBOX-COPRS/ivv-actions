@@ -14,7 +14,7 @@ class SafescaleOperator:
         Returns:
             tuple: the flexible engine credentials
         """
-        RobotVault.get_tenant_file()
+        RobotVault().get_tenant_file()
         with open("tenants.yaml",'r') as f:
             docs = yaml.safe_load(f)
             username = docs["tenants"][0]["identity"]["Username"]
