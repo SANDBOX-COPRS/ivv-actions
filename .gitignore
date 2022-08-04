@@ -2,4 +2,4 @@
 *.html
 infra.resource
 output/
-*.pyc
+__pycache__/
